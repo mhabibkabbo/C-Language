@@ -4,16 +4,21 @@
 
 #include <stdio.h>
 #include <stdarg.h> // Must needed library
+#include <string.h>
 
 // A simple function to add variable number of integers
 int sum(int num_args, ...); // ... in the prototype represents variable number of arguments
 
-// Let's create our own version of 
+// Let's create our own version of print functionn
+void lekho(char *cmd, ...); // we will restrict it into integer and floating point numbers
+
 int main()
 {
     int x = 0;
     x = sum(7, 1,2,3,4,5,6,7);
     printf("%d\n", x); 
+
+    lekho("ddfd", 2,3,4.07,4);
     return 0;
 }
 
@@ -21,7 +26,7 @@ int sum(int num_args, ...)
 {
     va_list arg_list; //It is a sort of a pointer of the argument list.
     
-    va_start(arg_list, num_args);//va_start(takes the beginning of the list, number of arguments)
+    va_start(arg_list, num_args);//va_start(takes the beginning of the list, parameter name just before the arguments)
 
     // We want to access the argument
     // for this we can use a loop as it the variable number is
@@ -39,4 +44,28 @@ int sum(int num_args, ...)
 
     va_end(arg_list); // terminator 
     return sum;
+}
+
+void lekho(char *cmd, ...)
+{
+    va_list list;
+    int noOfArg = strlen(cmd); // No of arguments
+
+    va_start(list, cmd);
+
+    int i;
+    for(i = 0; i < noOfArg; i++)
+    {
+        if(cmd[i] == 'd')
+        {
+            int x = va_arg(list, int);
+            printf("%d\n", x);
+        }
+        else {
+            double x = va_arg(list, double);
+            printf("%lf\n", x);
+        }
+    }
+
+    va_end(list);
 }
